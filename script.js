@@ -21,28 +21,15 @@ function setupMap(center) {
     zoom: 15
   })
 
-  // // Create a new marker.
-  // const marker = new mapboxgl.Marker()
-  //   .setLngLat(center)
-  //   .addTo(map);
+  // Create a new marker.
+  const marker = new mapboxgl.Marker()
+    .setLngLat(center)
+    .addTo(map);
 
   const nav = new mapboxgl.NavigationControl();
   map.addControl(nav);
 
   mapboxgl.accessToken = mapboxgl.accessToken;
-
-  const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    mapboxgl: mapboxgl
-  });
-
-  map.addControl(geocoder, "bottom-left");
-
-  geocoder.on('result', (event) => {
-    const destination_coordinates = Object.keys(geocoder.mapMarker._lngLat).map((key) => geocoder.mapMarker._lngLat[key]);
-    console.log(destination_coordinates);
-    getRoute(destination_coordinates);
-  });
 
   // an arbitrary start will always be the same
   // only the end or destination will change
@@ -72,31 +59,6 @@ function setupMap(center) {
     window.destination_coor = end;
     window.distance = data.distance;
     window.duration = data.duration;
-
-    // console.log('start: ', start);
-    // console.log('end: ', end);
-    // console.log(window.distance);
-    // console.log(window.duration);
-
-    // Code for pupup
-    // const markerHeight = 50;
-    // const markerRadius = 10;
-    // const linearOffset = 25;
-    // const popupOffsets = {
-    //   'top': [0, 0],
-    //   'top-left': [0, 0],
-    //   'top-right': [0, 0],
-    //   'bottom': [0, -markerHeight],
-    //   'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //   'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-    //   'left': [markerRadius, (markerHeight - markerRadius) * -1],
-    //   'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-    // };
-    // const popup = new mapboxgl.Popup({ offset: popupOffsets, closeOnClick: false })
-    //   .setLngLat(end)
-    //   .setHTML('<p>Distance in km: </p>' + data.distance / 1000 + '<br><p>ETA(mins): </p>' + data.duration / 60)
-    //   .setMaxWidth("600px")
-    //   .addTo(map);
 
     // if the route already exists on the map, we'll reset it using setData
     if (map.getSource('route')) {
@@ -131,34 +93,51 @@ function setupMap(center) {
     // getRoute(start);
 
     // Add starting point to the map
-    map.addLayer({
-      id: 'point',
-      type: 'circle',
-      source: {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              properties: {},
-              geometry: {
-                type: 'Point',
-                coordinates: start
-              }
-            }
-          ]
-        }
-      },
-      paint: {
-        'circle-radius': 10,
-        'circle-color': '#3887be'
-      }
-    });
+    // map.addLayer({
+    //   id: 'point',
+    //   type: 'circle',
+    //   source: {
+    //     type: 'geojson',
+    //     data: {
+    //       type: 'FeatureCollection',
+    //       features: [
+    //         {
+    //           type: 'Feature',
+    //           properties: {},
+    //           geometry: {
+    //             type: 'Point',
+    //             coordinates: start
+    //           }
+    //         }
+    //       ]
+    //     }
+    //   },
+    //   paint: {
+    //     'circle-radius': 10,
+    //     'circle-color': '#3887be'
+    //   }
+    // });
 
-    // this is where the code from the next step will go
+    // // markers saved here
+    // var currentMarkers = [];
+
     map.on('click', (event) => {
       const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
+
+      // // tmp marker
+      // const oneMarker = new mapboxgl.Marker()
+      //   .setLngLat(coords)
+      //   .addTo(map);
+
+      // // save tmp marker into currentMarkers
+      // currentMarkers.push(oneMarker);
+
+      // // remove markers 
+      // if (currentMarkers.length == 2) {
+      //   currentMarkers[0].remove();
+      //   currentMarkers.shift();
+      // }
+
       const end = {
         type: 'FeatureCollection',
         features: [
@@ -172,6 +151,7 @@ function setupMap(center) {
           }
         ]
       };
+
       if (map.getLayer('end')) {
         map.getSource('end').setData(end);
       } else {
@@ -202,6 +182,23 @@ function setupMap(center) {
       }
       getRoute(coords);
     });
+  });
+
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl
+  });
+
+  map.addControl(geocoder, "bottom-left");
+
+  geocoder.on('result', (event) => {
+    const destination_coordinates = Object.keys(geocoder.mapMarker._lngLat).map((key) => geocoder.mapMarker._lngLat[key]);
+    // if (map.getLayer('end')) {
+    //   map.removeLayer('end');
+    // }
+    // oneMarker.remove();
+    // console.log(destination_coordinates);
+    getRoute(destination_coordinates);
   });
 
   document.getElementById("click_button").addEventListener("click", function click_button() {

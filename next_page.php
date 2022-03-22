@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Blank Page | Bootstrap Simple Admin Template</title>
+    <title>Test Page</title>
     <link href="assets/vendor/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="assets/vendor/fontawesome/css/solid.min.css" rel="stylesheet">
     <link href="assets/vendor/fontawesome/css/brands.min.css" rel="stylesheet">
@@ -20,13 +20,13 @@
 </head>
 
 <body>
+    <!-- navbar navigation component -->
+    <nav class="navbar navbar-expand-lg navbar-white bg-white">
+
+    </nav>
+    <!-- end of navbar navigation -->
     <div class="wrapper">
         <div id="body" class="active">
-            <!-- navbar navigation component -->
-            <nav class="navbar navbar-expand-lg navbar-white bg-white">
-
-            </nav>
-            <!-- end of navbar navigation -->
             <div class="content">
                 <div class="container">
                     <div class="page-title">
