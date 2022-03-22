@@ -31,15 +31,15 @@
                 <div class="container">
                     <div class="page-title">
                         <?php
-                        $conn = mysqli_connect("localhost", "root", "root", "new_test_db");
+                        echo '<h1>Destination: ' . $_GET['destination'] . '</h1>';
+                        echo '<h1>Destination Address: ' . $_GET['destination_address'] . '</h1>';
+                        echo '<h1>Distance in km: ' . $_GET['distance'] . '</h1>';
+                        echo '<h1>Duration (mins): ' . $_GET['duration'] . '</h1>';
 
-                        if (mysqli_query(mysqli_connect("localhost", "root", "root", "new_test_db"), "insert into larga_concept_map (map_data_dist, map_data_dur, map_data_destination_name) values ('" . $_GET['distance'] . "', '" . $_GET['duration'] . "', '" . $_GET['destination'] . "');")) {
-                            echo '<h1>Destination: ' . $_GET['destination'] . '</h1>';
-                            echo '<h1>Distance in km: ' . $_GET['distance'] . '</h1>';
-                            echo '<h1>Duration (mins): ' . $_GET['duration'] . '</h1>';
-                        } else {
-                            echo 0;
-                        }
+                        // Insert data to database
+                        // if (mysqli_query(mysqli_connect("localhost", "root", "root", "new_test_db"), "insert into larga_concept_map (map_data_dist, map_data_dur, map_data_destination_name) values ('" . $_GET['distance'] . "', '" . $_GET['duration'] . "', '" . $_GET['destination'] . "');")) {
+                        //     echo 'Data Saved';
+                        // }
                         ?>
                     </div>
                 </div>

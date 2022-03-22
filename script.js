@@ -21,10 +21,10 @@ function setupMap(center) {
     zoom: 15
   })
 
-  // Create a new marker.
-  const marker = new mapboxgl.Marker()
-    .setLngLat(center)
-    .addTo(map);
+  // // Create a new marker.
+  // const marker = new mapboxgl.Marker()
+  //   .setLngLat(center)
+  //   .addTo(map);
 
   const nav = new mapboxgl.NavigationControl();
   map.addControl(nav);
@@ -41,7 +41,6 @@ function setupMap(center) {
   geocoder.on('result', (event) => {
     const destination_coordinates = Object.keys(geocoder.mapMarker._lngLat).map((key) => geocoder.mapMarker._lngLat[key]);
     console.log(destination_coordinates);
-    window.destination_coor = destination_coordinates;
     getRoute(destination_coordinates);
   });
 
@@ -69,11 +68,15 @@ function setupMap(center) {
         coordinates: route
       }
     };
-    // console.log('Distance in km: ', data.distance / 1000);
-    // console.log('Duration of trip: ', data.duration);
 
+    window.destination_coor = end;
     window.distance = data.distance;
     window.duration = data.duration;
+
+    // console.log('start: ', start);
+    // console.log('end: ', end);
+    // console.log(window.distance);
+    // console.log(window.duration);
 
     // Code for pupup
     // const markerHeight = 50;
@@ -210,8 +213,9 @@ function setupMap(center) {
         { method: 'GET' }
       );
       const json = await query.json();
-      // console.log(json.features[0].text);
-      location.href = "next_page.php?distance=" + distance + "&duration=" + duration + "&destination=" + json.features[0].text;
+      // console.log(window.destination_coor);
+      // console.log(json.features[0]);
+      location.href = "next_page.php?distance=" + distance + "&duration=" + duration + "&destination=" + json.features[0].text + "&destination_address=" + json.features[0].properties.address;
     }
     getDestinationName();
   });
