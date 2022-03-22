@@ -215,7 +215,8 @@ function setupMap(center) {
       const json = await query.json();
       // console.log(window.destination_coor);
       // console.log(json.features[0]);
-      location.href = "next_page.php?distance=" + distance + "&duration=" + duration + "&destination=" + json.features[0].text + "&destination_address=" + json.features[0].properties.address;
+
+      window.location.assign("next_page.php?distance=" + distance + "&duration=" + duration + "&destination=" + json.features[0].text + "&destination_address=" + json.features[0].properties.address);
     }
     getDestinationName();
   });
