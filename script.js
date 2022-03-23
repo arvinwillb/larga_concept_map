@@ -189,7 +189,7 @@ function setupMap(center) {
     mapboxgl: mapboxgl
   });
 
-  map.addControl(geocoder, "bottom-left");
+  map.addControl(geocoder, "bottom-right");
 
   geocoder.on('result', (event) => {
     const destination_coordinates = Object.keys(geocoder.mapMarker._lngLat).map((key) => geocoder.mapMarker._lngLat[key]);
